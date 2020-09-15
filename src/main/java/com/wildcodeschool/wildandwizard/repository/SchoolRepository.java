@@ -13,12 +13,11 @@ public class SchoolRepository {
 
     public School save(String name, Long capacity, String country) {
 
-        // TODO : insert a new school in database
-
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet generatedKeys = null;
         try {
+
             connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
@@ -31,20 +30,25 @@ public class SchoolRepository {
             statement.setString(3, country);
 
             if (statement.executeUpdate() != 1) {
+
                 throw  new SQLException("failed to insert data");
             }
 
             generatedKeys = statement.getGeneratedKeys();
 
             if (generatedKeys.next()) {
+
                 Long id = generatedKeys.getLong(1);
                 return new School(id, name, capacity, country);
             } else {
+
                 throw new SQLException("failed to get inserted id");
             }
         } catch (SQLException e) {
+
             e.printStackTrace();
         } finally {
+
             JdbcUtils.closeResultSet(generatedKeys);
             JdbcUtils.closeStatement(statement);
             JdbcUtils.closeConnection(connection);

@@ -18,6 +18,7 @@ public class SchoolController {
                              @RequestParam Long capacity,
                              @RequestParam String country
     ) {
+
         model.addAttribute("school", repository.save(name, capacity, country));
 
         return "school_get";

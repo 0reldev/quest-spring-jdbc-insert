@@ -25,6 +25,7 @@ public class WizardRepository {
         PreparedStatement statement = null;
         ResultSet generatedKeys = null;
         try {
+
             connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
@@ -46,15 +47,19 @@ public class WizardRepository {
             generatedKeys = statement.getGeneratedKeys();
 
             if (generatedKeys.next()) {
+
                 Long id = generatedKeys.getLong(1);
                 return new Wizard(id, firstName, lastName, birthday,
                         birthPlace, biography, muggle);
             } else {
+
                 throw new SQLException("failed to get inserted id");
             }
         } catch (SQLException e) {
+
             e.printStackTrace();
         } finally {
+
             JdbcUtils.closeResultSet(generatedKeys);
             JdbcUtils.closeStatement(statement);
             JdbcUtils.closeConnection(connection);
